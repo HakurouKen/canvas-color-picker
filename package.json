@@ -1,0 +1,28 @@
+{
+  "name": "canvas-color-picker",
+	"version": "0.0.1",
+	"title": "Color Picker for Canvas",
+	"description": "An HTML5 Color-picker using canvas",
+	"author": {
+		"name": "Hakurouken",
+		"url": "https://github.com/Hakurouken"
+	},
+	"license": "WTFPL",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Hakurouken/canvas-color-picker.git"
+	},
+	"homepage": "https://github.com/Hakurouken/canvas-color-picker",
+	"bugs": {
+		"url": "https://github.com/Hakurouken/canvas-color-picker/issues"
+	},
+	"main": "canvas-color-picker.js",
+	"directories": {
+		"test": "tests"
+	},
+	"keywords": [
+		"canvas",
+		"color-picker"
+	],
+	"devDependencies": {}
+}
