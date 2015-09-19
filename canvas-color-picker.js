@@ -184,48 +184,6 @@
             }
         };
 
-    // TODO: promise
-    function Promise(executor){
-        if( this.constructor !== Promise ){
-            throw new TypeError('Promise must be constructed via "new"');
-        }
-        if( type(executor) !== 'function' ){
-            throw new TypeError('Executor must be a function');
-        }
-
-        this.status = Promise.STATUS.PENDING;
-    }
-
-    Promise.STATUS = {
-        PENDING: 0,
-        FULFILLED: 1,
-        REJECTED: 2
-    };
-
-    extend(Promise,{
-        all: function(){
-            var iterable = toArray(arguments);
-        },
-        race: function(){
-            var iterable = toArray(arguments);
-        },
-        reject: function(reason){
-
-        },
-        resolve: function(value){
-
-        }
-    })
-
-    extend(Promise.prototype,{
-        then: function(onFulfilled,onRejected){
-
-        },
-        catch: function(onRejected){
-
-        }
-    })
-
     var magnifierTmpl = [
         '<div id="_magnifier-container" style="position:absolute; width:150px; border:1px solid #F5F5F5; line-height:0; display:none; box-shadow:0 0 2px rgba(0, 0, 0, 0.8); transform:scale(0.8);">',
             '<div class="_magnifier-container" style="background-color:white;">',
