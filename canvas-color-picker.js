@@ -157,11 +157,11 @@
             }
 
             var getColor = function(c) {
-                c = ((+c > 255 ? 255 : c) || 0).toString(16);
+                c = Math.max(Math.min(c,255),0).toString(16);
                 return c.length < 2 ? '0' + c : c;
             }
 
-            return '#' + getColor(r) + getColor(g) + getColor(b);
+            return ('#' + getColor(r) + getColor(g) + getColor(b)).toUpperCase();
         },
         hex2Rgb = Helpers.hex2Rgb = function(hex) {
             if (hex.indexOf('#') === 0) {
