@@ -24,5 +24,7 @@
 		"canvas",
 		"color-picker"
 	],
-	"devDependencies": {}
+	"devDependencies": {
+		"mocha":"~2.3.2"
+	}
 }

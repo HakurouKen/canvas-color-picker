@@ -138,9 +138,159 @@ describe('Helpers',function(){
 		it('should accept 3 or 6 digit hex, with or without "#" ',function(){
 			assert.deepEqual([17,255,170],Helpers.hex2Rgb('#1FA'));
 			assert.deepEqual([17,34,51],Helpers.hex2Rgb('123'));
+		});		
+	});
+
+	describe('Promise',function(){
+		describe('Promise.prototype.then',function(){
+			it('should resolve correctly',function(done){
+				var promise = new Helpers.Promise(function(resolve,reject){
+					setTimeout(function(){
+						resolve('resolved');
+					},100);
+				});
+
+				promise.then(function(value){
+					assert.equal('resolved',value);
+					done();
+				},function(){})
+			});
+
+			it('should be chainable',function(done){
+				var promise = new Helpers.Promise(function(resolve,reject){
+					setTimeout(function(){
+						resolve('resolved');
+					},100);
+				});
+
+				promise.then(function(value){
+					assert.equal('resolved',value);
+					return value + ' chain';
+				}).then(function(value){
+					assert.equal('resolved chain',value);
+					done();
+				},function(){});
+			});
+
+			it('should catch rejected correctly',function(done){
+				var promise = new Helpers.Promise(function(resolve,reject){
+					setTimeout(function(){
+						reject('rejected');
+					},100);
+				});
+
+				promise.then(function(value){},function(reason){
+					assert.equal(reason,'rejected');
+					done();
+				});
+			});
+
+			it('should pass the rejected status',function(done){
+				var promise = new Helpers.Promise(function(resolve,reject){
+					setTimeout(function(){
+						reject('rejected');
+					},100);
+				});
+
+				promise.then(function(value){
+
+				}).then(function(value){
+
+				}).then(function(value){
+
+				},function(reason){
+					assert.equal(reason,'rejected');
+					done();
+				})
+			});
 		});
 
-		
+		describe('Promise.prototype.catch',function(){
+			it('should catch rejected correctly',function(done){
+				var promise = new Helpers.Promise(function(resolve,reject){
+					setTimeout(function(){
+						reject('resolved');
+					},100);
+				});
+
+				promise.catch(function(reason){
+					done();
+				});
+			});
+
+			it('should pass the rejected status',function(done){
+				var promise = new Helpers.Promise(function(resolve,reject){
+					setTimeout(function(){
+						reject('rejected');
+					},100);
+				});
+
+				promise.then(function(){
+
+				}).catch(function(reason){
+					assert.equal('rejected',reason);
+					done();
+				});				
+			});
+		});
+
+		describe('Promise.resolve',function(done){
+			it('should return a resolved Promise Object, resolved with value given',function(){
+				Promise.resolve('resolved').then(function(value){
+					assert.equal('resolved',value);
+					done();
+				})
+			})
+		});
+
+		describe('Promise.reject',function(done){
+			it('should return a rejected Promise Object, rejected with reason given',function(){
+				Promise.reject('rejected').catch(function(reason){
+					assert.equal('rejected',reason);
+					done();
+				});
+			})
+		});
+
+		describe('Promise.all',function(){
+			it('should return a Promise Object, resolving when all promise resolved',function(done){
+				var p1 = new Promise(function(resolve,reject){
+					setTimeout(function(){
+						resolve('promise 1');
+					},100);
+				}),
+				p2 = new Promise(function(resolve,reject){
+					setTimeout(function(){
+						resolve('promise 2');
+					},200);
+				});
+			
+				Promise.all([p1,p2]).then(function(results){
+					assert.deepEqual(['promise 1','promise 2'],results);
+					done();
+				})
+			});
+		});
+
+		describe('Promise.race',function(){
+			it('should return a Promise, resolving when the first promise resolved',function(done){
+				var p1 = new Promise(function(resolve,reject){
+					setTimeout(function(){
+						resolve('promise 1');
+					},100);
+				});
+				var p2 = new Promise(function(resolve,reject){
+					setTimeout(function(){
+						resolve('promise 2');
+					},500);
+				});
+
+				Promise.race([p1,p2]).then(function(value){
+					assert.equal('promise 1',value);
+					done();
+				});
+			});
+		});
 	});
 
 });
