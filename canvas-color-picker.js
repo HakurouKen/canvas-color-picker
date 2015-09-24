@@ -593,16 +593,23 @@
         },
         loadImg: function(src, callback) {
             var img = new Image(),
-                canvas = this.canvas,
-                ctx = this.ctx;
-            img.onload = function() {
-                canvas.width = img.width;
-                canvas.height = img.height;
-                ctx.drawImage(img, 0, 0);
-                callback && callback(img);
-            }
-            img.src = src;
-            return this;
+                self = this,
+                canvas = self.canvas,
+                ctx = self.ctx;
+
+            return new Promise(function(resolve,reject){
+                img.src = src;
+                img.onload = function(){
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+                    callback && callback(img);
+                    resolve(self);
+                }
+                img.onerror = function(err){
+                    reject(err);
+                }
+            });
         },
         update: function(){
             var self = this;
@@ -610,16 +617,23 @@
             return self;
         },
         resize: function(width, height) {
-            var canvas = this.canvas,
+            var self = this,
+                canvas = self.canvas,
                 imgData = canvas.toDataURL('image/png'),
                 img = new Image();
-            img.onload = function() {
-                canvas.width = width;
-                canvas.height = height;
-                this.ctx.drawImage(imgData, 0, 0);
-            }
-            img.src = imgData;
-            return canvas;
+
+            return new Promise(function(resolve,reject){
+                img.src = imgData;
+                img.onload = function(){
+                    canvas.width = width;
+                    canvas.height = height;
+                    self.ctx.drawImage(imgData, 0, 0);                    
+                    resolve(self);
+                }
+                img.onerror = function(err){
+                    reject(err);
+                }
+            });
         }
     });
 
