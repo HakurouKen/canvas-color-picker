@@ -6,6 +6,4 @@ A color-picker build by canvas
 [WTFPL][WTFPL]
 
 ### TODO
-1. Support Promise.
-2. Add unit test.
-3. A server to upload image files.
+A server to upload image files.
